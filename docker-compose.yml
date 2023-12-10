@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    networks:
+      - mynetwork
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile # Assuming Dockerfile is in the same directory
+    ports:
+      # - '3000-3001:3000'
+      - 3000:3000
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+    # command: npm run start:dev
+    # scale: 2
+
+networks:
+  mynetwork:
+    driver: bridge
